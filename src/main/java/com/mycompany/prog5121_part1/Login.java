@@ -42,7 +42,7 @@ public class Login {
     // Validates international code prefix (+) followed by digits
     public boolean checkCellPhoneNumber(String cellNumber) {
         if (cellNumber == null) return false;
-        String regex = "^\\+\\d{1,14}$";
+        String regex = "^\\+\\d{1,10}$";
         return Pattern.matches(regex, cellNumber);
     }
 
