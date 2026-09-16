@@ -14,9 +14,11 @@ public class Login {
     private String firstName;
     private String lastName;
 
-    // Checks if username contains '_' and is <= 5 characters
+    // Checks if username contains an underscore and is no more than 5 characters
     public boolean checkUserName(String username) {
-        return username != null && username.contains("_") && username.length() <= 5;
+        return username != null
+                && username.contains("_")
+                && username.length() <= 5;
     }
 
     // Checks password complexity rules
@@ -30,24 +32,33 @@ public class Login {
         boolean hasSpecial = false;
 
         for (char c : password.toCharArray()) {
-            if (Character.isUpperCase(c)) hasUpper = true;
-            else if (Character.isDigit(c)) hasDigit = true;
-            else if (!Character.isLetterOrDigit(c)) hasSpecial = true;
+
+            if (Character.isUpperCase(c)) {
+                hasUpper = true;
+            } else if (Character.isDigit(c)) {
+                hasDigit = true;
+            } else if (!Character.isLetterOrDigit(c)) {
+                hasSpecial = true;
+            }
         }
 
         return hasUpper && hasDigit && hasSpecial;
     }
 
-    // Checks cell phone number format using Regular Expression
-    // Validates international code prefix (+) followed by digits
+    // Checks cell phone number using a regular expression
     public boolean checkCellPhoneNumber(String cellNumber) {
-        if (cellNumber == null) return false;
-        String regex = "^\\+\\d{1,10}$";
+        if (cellNumber == null) {
+            return false;
+        }
+
+        String regex = "^\\+27\\d{1,9}$";
         return Pattern.matches(regex, cellNumber);
     }
 
-    // Registers the user and returns status message based on validation
-    public String registerUser(String username, String password, String cellNumber, String firstName, String lastName) {
+    // Registers the user and returns the appropriate status message
+    public String registerUser(String username, String password,
+            String cellNumber, String firstName, String lastName) {
+
         if (!checkUserName(username)) {
             return "Username is not correctly formatted; please ensure that your username contains an underscore and is no more than five characters in length.";
         }
@@ -57,7 +68,7 @@ public class Login {
         }
 
         if (!checkCellPhoneNumber(cellNumber)) {
-            return "Cell phone number incorrectly formatted or does not contain an international code.";
+            return "Cell phone number incorrectly formatted or does not contain international code.";
         }
 
         this.registeredUsername = username;
@@ -66,20 +77,25 @@ public class Login {
         this.firstName = firstName;
         this.lastName = lastName;
 
-        return "Password successfully captured.";
+        return "Username successfully captured.\n"
+                + "Password successfully captured.\n"
+                + "Cell phone number successfully added.";
     }
 
-    // Verifies login credentials match stored user details
+    // Verifies login credentials against the registered details
     public boolean loginUser(String username, String password) {
-        return username != null && password != null
+        return username != null
+                && password != null
                 && username.equals(this.registeredUsername)
                 && password.equals(this.registeredPassword);
     }
 
-    // Returns login status message using stored first and last name
+    // Returns the login status message
     public String returnLoginStatus(boolean isLoggedIn) {
+
         if (isLoggedIn) {
-            return "Welcome " + firstName + " ," + lastName + " it is great to see you.";
+            return "Welcome " + firstName + ", " + lastName
+                    + " it is great to see you again.";
         } else {
             return "Username or password incorrect, please try again.";
         }

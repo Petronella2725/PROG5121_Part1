@@ -6,14 +6,11 @@ package com.mycompany.prog5121_part1;
 
 import java.util.Scanner;
 
-/**
- *
- * @author petro
- */
 public class PROG5121_Part1 {
 
     public static void main(String[] args) {
-         Scanner scanner = new Scanner(System.in);
+
+        Scanner scanner = new Scanner(System.in);
         Login loginApp = new Login();
 
         System.out.println("=== USER REGISTRATION ===");
@@ -30,14 +27,22 @@ public class PROG5121_Part1 {
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
 
-        System.out.print("Enter Cell Phone Number (e.g., +27123456): ");
+        System.out.print("Enter Cell Phone Number (e.g., +27123456789): ");
         String cellNumber = scanner.nextLine();
 
-        String regResult = loginApp.registerUser(username, password, cellNumber, firstName, lastName);
+        String regResult = loginApp.registerUser(
+                username,
+                password,
+                cellNumber,
+                firstName,
+                lastName
+        );
+
         System.out.println("\n" + regResult + "\n");
 
-        // Proceed to Login only if registration passed
-        if (regResult.contains("successfully added")) {
+        // Proceed to login only if registration was successful
+        if (regResult.contains("Cell phone number successfully added.")) {
+
             System.out.println("=== USER LOGIN ===");
 
             System.out.print("Enter Username: ");
@@ -46,8 +51,12 @@ public class PROG5121_Part1 {
             System.out.print("Enter Password: ");
             String loginPass = scanner.nextLine();
 
-            boolean isAuthenticated = loginApp.loginUser(loginUser, loginPass);
-            System.out.println(loginApp.returnLoginStatus(isAuthenticated));
+            boolean isAuthenticated =
+                    loginApp.loginUser(loginUser, loginPass);
+
+            System.out.println(
+                    loginApp.returnLoginStatus(isAuthenticated)
+            );
         }
 
         scanner.close();
